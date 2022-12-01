@@ -27,18 +27,13 @@ function part.a(filename)
 	return math.max(table.unpack(calories))
 end
 
+function greater(a, b)
+	return a > b
+end
+
 function part.b(filename)
-	local calories = build_calories(filename)
-	local sum = 0
-	for i = 1, 3 do
-		local max = math.max(table.unpack(calories))
-		for i, val in ipairs(calories) do
-			if val == max then
-				table.remove(calories, i)
-				break
-			end
-		end
-		sum = sum + max
-	end
+	calories = build_calories(filename)
+	table.sort(calories, greater)
+	sum = calories[1] + calories[2] + calories[3]
 	return sum
 end

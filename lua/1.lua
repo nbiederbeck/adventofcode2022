@@ -1,12 +1,11 @@
-result_a = 24000
-result_b = 45000
-example = "examples/1.txt"
-puzzle = "build/1"
+result = {}
+result.a = 24000
+result.b = 45000
 
 function build_calories(filename)
 	io.input(filename)
-	calories = {}
-	elf_counter = 1
+	local calories = {}
+	local elf_counter = 1
 
 	for line in io.lines() do
 		if calories[elf_counter] == nil then
@@ -23,23 +22,16 @@ function build_calories(filename)
 	return calories
 end
 
-function run_a(filename)
-	calories = build_calories(filename)
+function part.a(filename)
+	local calories = build_calories(filename)
 	return math.max(table.unpack(calories))
 end
 
-function test_a()
-	assert(run_a(example) == result_a)
-end
-
-test_a()
-print(run_a(puzzle))
-
-function run_b(filename)
-	calories = build_calories(filename)
-	sum = 0
+function part.b(filename)
+	local calories = build_calories(filename)
+	local sum = 0
 	for i = 1, 3 do
-		max = math.max(table.unpack(calories))
+		local max = math.max(table.unpack(calories))
 		for i, val in ipairs(calories) do
 			if val == max then
 				table.remove(calories, i)
@@ -50,10 +42,3 @@ function run_b(filename)
 	end
 	return sum
 end
-
-function test_b()
-	assert(run_b(example) == result_b)
-end
-
-test_b()
-print(run_b(puzzle))

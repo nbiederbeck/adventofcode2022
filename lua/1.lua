@@ -1,5 +1,7 @@
 result_a = 24000
 result_b = 45000
+example = "examples/1.txt"
+puzzle = "build/1"
 
 function build_calories(filename)
 	io.input(filename)
@@ -27,11 +29,11 @@ function run_a(filename)
 end
 
 function test_a()
-	assert(run_a("examples/day1.txt") == result_a)
+	assert(run_a(example) == result_a)
 end
 
 test_a()
-print(run_a("puzzles/day1.txt"))
+print(run_a(puzzle))
 
 function run_b(filename)
 	calories = build_calories(filename)
@@ -50,8 +52,8 @@ function run_b(filename)
 end
 
 function test_b()
-	assert(run_b("examples/day1.txt") == result_b)
+	assert(run_b(example) == result_b)
 end
 
 test_b()
-print(run_b("puzzles/day1.txt"))
+print(run_b(puzzle))

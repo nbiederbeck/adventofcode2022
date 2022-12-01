@@ -1,17 +1,20 @@
-%: puzzles/day%.txt
-	@lua day$*.lua
+all: 1
+	./aoc $^
 
-puzzles:
-	mkdir -p $@
+%: build/%
+	@#
 
-puzzles/day%.txt: | puzzles
+build/%:
 	curl \
 		--silent \
 		https://adventofcode.com/2022/day/$*/input \
 		--cookie "session=$$AOC_SESSION" \
-		--output $@
+		--output $@ \
+		--create-dirs
 
 clean:
-	rm -rf puzzles
+	rm -rf build
 
-.PHONY: clean
+.PHONY: all clean
+
+.SECONDARY:

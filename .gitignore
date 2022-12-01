@@ -1,5 +1,5 @@
 # AOC
-puzzles/
+build/
 
 # Compiled Lua sources
 luac.out

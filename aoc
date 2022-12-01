@@ -1,0 +1,6 @@
+#!/usr/bin/env lua
+for _, day in ipairs(arg) do
+	if tonumber(day) ~= nil then
+		dofile("lua/" .. day .. ".lua")
+	end
+end

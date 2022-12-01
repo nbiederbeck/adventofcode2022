@@ -1,4 +1,4 @@
-all: 1
+all: $(shell seq 1)
 	./aoc $^
 
 %: build/%

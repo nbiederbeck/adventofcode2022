@@ -27,11 +27,11 @@ function run_a(filename)
 end
 
 function test_a()
-	assert(run_a("examples/day01.txt") == result_a)
+	assert(run_a("examples/day1.txt") == result_a)
 end
 
 test_a()
-print(run_a("puzzles/day01.txt"))
+print(run_a("puzzles/day1.txt"))
 
 function run_b(filename)
 	calories = build_calories(filename)
@@ -50,8 +50,8 @@ function run_b(filename)
 end
 
 function test_b()
-	assert(run_b("examples/day01.txt") == result_b)
+	assert(run_b("examples/day1.txt") == result_b)
 end
 
 test_b()
-print(run_b("puzzles/day01.txt"))
+print(run_b("puzzles/day1.txt"))

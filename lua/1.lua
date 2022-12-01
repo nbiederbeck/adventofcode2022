@@ -8,14 +8,14 @@ function build_calories(filename)
 	local elf_counter = 1
 
 	for line in io.lines() do
-		if calories[elf_counter] == nil then
-			calories[elf_counter] = 0
-		end
-		if line ~= "" then
+		if line == "" then
+			elf_counter = elf_counter + 1
+		else
+			if calories[elf_counter] == nil then
+				calories[elf_counter] = 0
+			end
 			cal = tonumber(line)
 			calories[elf_counter] = calories[elf_counter] + cal
-		else
-			elf_counter = elf_counter + 1
 		end
 	end
 

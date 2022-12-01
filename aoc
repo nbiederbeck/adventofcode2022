@@ -1,4 +1,6 @@
 #!/usr/bin/env lua
+require("lua/lib") -- make functions from lib.lua accessible
+
 for _, day in ipairs(arg) do
 	if tonumber(day) ~= nil then
 		part = {}

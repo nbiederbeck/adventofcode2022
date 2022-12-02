@@ -11,7 +11,7 @@ function build_calories(filename)
 		if line == "" then
 			elf_counter = elf_counter + 1
 		else
-			if calories[elf_counter] == nil then
+			if not calories[elf_counter] then
 				calories[elf_counter] = 0
 			end
 			cal = tonumber(line)

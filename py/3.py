@@ -1,5 +1,3 @@
-result = {"a": 157, "b": 70}
-
 off_lower = ord("a") - 1
 off_upper = ord("A") - 1 - 26
 
@@ -45,7 +43,9 @@ def part_b(filename):
 
 
 if __name__ == "__main__":
-    assert part_a("examples/3.txt") == result["a"]
-    print(part_a("build/3"))
-    assert part_b("examples/3.txt") == result["b"]
-    print(part_b("build/3"))
+    ex = "examples/3.txt"
+    f = "build/3"
+    assert part_a(ex) == 157
+    print(part_a(f))
+    assert part_b(ex) == 70
+    print(part_b(f))

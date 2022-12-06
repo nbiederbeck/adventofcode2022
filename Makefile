@@ -1,6 +1,6 @@
-all: $(shell seq 5)
+all: $(shell seq 6)
 	./aoc.lua 1 2
-	./aoc.py 3 4 5
+	./aoc.py 3 4 5 6
 
 %: build/%
 	@#

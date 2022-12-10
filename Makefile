@@ -1,4 +1,4 @@
-all: $(shell seq 9)
+all: $(shell seq 10)
 	./aoc.lua 1 2
 	./aoc.py $^
 

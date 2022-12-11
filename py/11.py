@@ -40,26 +40,22 @@ def parse_input(filename):
             "items": list(map(int, mon[1].split(":")[1].split(","))),
             "operation": parse_operation(mon[2]),
             "test": int(mon[3].split(" ")[-1]),
-            "True": int(mon[4][-1]),
-            "False": int(mon[5][-1]),
+            True: int(mon[4][-1]),
+            False: int(mon[5][-1]),
             "inspections": 0,
         }
 
     return monkeys
 
 
-def test(monkey, value):
-    return value % monkey["test"] == 0
-
-
 def test_and_how_to():
     monkeys = parse_input("examples/11.txt")
     assert monkeys[0]["items"] == [79, 98]
     assert monkeys[2]["operation"](20) == 400
-    assert test(monkeys[3], 34)
-    assert not test(monkeys[1], 20)
-    assert monkeys[1]["True"] == 2
-    assert monkeys[0]["False"] == 3
+    assert 34 % monkeys[3]["test"] == 0
+    assert not 20 % monkeys[1]["test"] == 0
+    assert monkeys[1][True] == 2
+    assert monkeys[0][False] == 3
 
 
 def part(filename, level, rounds):
@@ -75,7 +71,7 @@ def part(filename, level, rounds):
                 # relief (divide by 3, round down)
                 worry = worry // level
                 # test worry level (test)
-                throw_to = m[str(test(m, worry))]
+                throw_to = m[worry % m["test"] == 0]
                 # throw away
                 monkeys[throw_to]["items"].append(worry)
                 # increase inspection
@@ -94,6 +90,6 @@ if __name__ == "__main__":
     assert part(ex, **args) == 10605
     print(part(f, **args))
 
-    # args = {"level": 1, "rounds": 10000}
+    args = {"level": 1, "rounds": 10000}
     # assert part(ex, **args) == 2713310158
-    # print(part(f, **args))
+    print(part(f, **args))

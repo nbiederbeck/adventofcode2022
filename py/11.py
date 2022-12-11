@@ -61,10 +61,18 @@ def test_and_how_to():
 def part(filename, level, rounds):
     monkeys = parse_input(filename)
 
+    primes = 1
+    for m in monkeys.values():
+        primes *= m["test"]
+
     for r in range(rounds):
         for i in range(len(monkeys)):
             m = monkeys[i]
-            for _ in range(len(m["items"])):
+
+            n_items = len(m["items"])
+            m["inspections"] += n_items
+
+            for _ in range(n_items):
                 # inspect item (increases worry)
                 item = m["items"].pop(0)
                 worry = m["operation"](item)
@@ -73,9 +81,7 @@ def part(filename, level, rounds):
                 # test worry level (test)
                 throw_to = m[worry % m["test"] == 0]
                 # throw away
-                monkeys[throw_to]["items"].append(worry)
-                # increase inspection
-                m["inspections"] += 1
+                monkeys[throw_to]["items"].append(worry % primes)
 
     ins = list(reversed(sorted([m["inspections"] for m in monkeys.values()])))
     return ins[0] * ins[1]
@@ -91,5 +97,5 @@ if __name__ == "__main__":
     print(part(f, **args))
 
     args = {"level": 1, "rounds": 10000}
-    # assert part(ex, **args) == 2713310158
+    assert part(ex, **args) == 2713310158
     print(part(f, **args))

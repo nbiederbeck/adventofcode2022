@@ -59,10 +59,23 @@ def parse(filename):
     return cave
 
 
+def count_sand(cave):
+    s = 0
+    for x in cave.keys():
+        for c in cave[x].values():
+            if c == "o":
+                s += 1
+    return s
+
+
 def part_a(cave, b=False):
     init_sand = {"x": 500, "y": 0}
     n_sand = 0
+
     max_y = max([y for v in cave.values() for y in v.keys()])
+
+    if b:
+        max_y += 1
 
     sand = copy(init_sand)
     while True:
@@ -71,8 +84,14 @@ def part_a(cave, b=False):
         y = sand["y"] + 1
 
         if y > max_y:
+            if b:
+                cave[sand["x"]][sand["y"]] = "o"
+                n_sand += 1
+                sand = copy(init_sand)
+                continue
             # fall into abyss
-            break
+            else:
+                break
 
         if y not in cave[x]:
             sand["y"] = y
@@ -90,11 +109,12 @@ def part_a(cave, b=False):
         else:
             # sand is at rest
             cave[sand["x"]][sand["y"]] = "o"
-            sand = copy(init_sand)
             n_sand += 1
+            if sand == {"x": 500, "y": 0}:
+                break
+            sand = copy(init_sand)
 
-    print_cave(cave)
-    return n_sand
+    return count_sand(cave)
 
 
 if __name__ == "__main__":
@@ -102,5 +122,5 @@ if __name__ == "__main__":
     f = parse("build/14")
     assert part_a(copy(ex)) == 24
     print(part_a(copy(f)))
-    # assert part_a(copy(ex), b=True) == 93
-    # print(part_a(copy(f), b=True))
+    assert part_a(copy(ex), b=True) == 93
+    print(part_a(copy(f), b=True))

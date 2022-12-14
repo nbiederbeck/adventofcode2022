@@ -1,8 +1,12 @@
+from ast import literal_eval
 from functools import cmp_to_key
 
 
 def parse(f):
-    return [list(map(eval, d.split("\n"))) for d in open(f).read()[:-1].split("\n\n")]
+    return [
+        list(map(literal_eval, d.split("\n")))
+        for d in open(f).read()[:-1].split("\n\n")
+    ]
 
 
 def check(left: list, right: list):

@@ -56,49 +56,51 @@ def parse(filename):
         edges = list(map(split, map(str.strip, line.split("->"))))
         for x, ys in fill_between(edges).items():
             cave[x] |= ys
-    return dict(cave)
+    return cave
 
 
-def part_a(cave):
+def part_a(cave, b=False):
     init_sand = {"x": 500, "y": 0}
     n_sand = 0
     max_y = max([y for v in cave.values() for y in v.keys()])
 
     sand = copy(init_sand)
     while True:
-        try:
-            # drop down
-            row = sand["x"]
-            down = sand["y"] + 1
-            if down > max_y:
-                break
+        # drop down
+        x = sand["x"]
+        y = sand["y"] + 1
 
-            if down not in cave[row]:
-                sand["y"] = down
-
-            # drop down and left
-            elif down not in cave[row - 1]:
-                sand["y"] = down
-                sand["x"] -= 1
-
-            # drop down and right
-            elif down not in cave[row + 1]:
-                sand["y"] = down
-                sand["x"] += 1
-
-            else:
-                # sand is at rest
-                cave[sand["x"]][sand["y"]] = "o"
-                sand = copy(init_sand)
-                n_sand += 1
-        except KeyError:
+        if y > max_y:
+            # fall into abyss
             break
 
+        if y not in cave[x]:
+            sand["y"] = y
+
+        # drop down and left
+        elif y not in cave[x - 1]:
+            sand["y"] = y
+            sand["x"] -= 1
+
+        # drop down and right
+        elif y not in cave[x + 1]:
+            sand["y"] = y
+            sand["x"] += 1
+
+        else:
+            # sand is at rest
+            cave[sand["x"]][sand["y"]] = "o"
+            sand = copy(init_sand)
+            n_sand += 1
+
+    print_cave(cave)
     return n_sand
 
 
 if __name__ == "__main__":
     ex = parse("examples/14.txt")
     f = parse("build/14")
-    assert part_a(ex) == 24
-    print(part_a(f))
+    assert part_a(copy(ex)) == 24
+    print(part_a(copy(f)))
+    # assert part_a(copy(ex), b=True) == 93
+    # print(part_a(copy(f), b=True))

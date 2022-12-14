@@ -1,4 +1,5 @@
 from collections import defaultdict
+from copy import copy
 
 
 def split(s, where=","):
@@ -55,30 +56,49 @@ def parse(filename):
         edges = list(map(split, map(str.strip, line.split("->"))))
         for x, ys in fill_between(edges).items():
             cave[x] |= ys
-    return cave
+    return dict(cave)
 
 
 def part_a(cave):
     init_sand = {"x": 500, "y": 0}
     n_sand = 0
+    max_y = max([y for v in cave.values() for y in v.keys()])
 
-    sand = init_sand
+    sand = copy(init_sand)
     while True:
-        n_sand += 1
-        if sand["y"] + 1 not in cave:
-            sand["y"] += 1
-        elif sand["x"] + 1 not in cave and sand["y"] + 1 not in cave[sand["x"] + 1]:
-            sand["x"] -= 1
-            sand["y"] += 1
-        elif sand["y"] + 1 not in cave and sand["x"] - 1 not in cave[sand["y"] + 1]:
-            sand["x"] += 1
-            sand["y"] -= 1
-        else:
-            raise ValueError("Should not happen.")
+        try:
+            # drop down
+            row = sand["x"]
+            down = sand["y"] + 1
+            if down > max_y:
+                break
+
+            if down not in cave[row]:
+                sand["y"] = down
+
+            # drop down and left
+            elif down not in cave[row - 1]:
+                sand["y"] = down
+                sand["x"] -= 1
+
+            # drop down and right
+            elif down not in cave[row + 1]:
+                sand["y"] = down
+                sand["x"] += 1
+
+            else:
+                # sand is at rest
+                cave[sand["x"]][sand["y"]] = "o"
+                sand = copy(init_sand)
+                n_sand += 1
+        except KeyError:
+            break
+
+    return n_sand
 
 
 if __name__ == "__main__":
     ex = parse("examples/14.txt")
     f = parse("build/14")
-    print_cave(f)
-    # assert part_a(ex) == 24
+    assert part_a(ex) == 24
+    print(part_a(f))

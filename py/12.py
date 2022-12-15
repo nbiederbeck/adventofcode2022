@@ -1,10 +1,10 @@
 from collections import defaultdict
 from pprint import pprint
-from typing import Dict, Set
+from typing import Dict, List, Set
 
 
 class Graph:
-    vertices: Dict[int, Dict[str, str]] = {}
+    vertices: Dict[int, str] = {}
     edges: Dict[int, Set[int]] = defaultdict(set)
 
     def __str__(self) -> str:
@@ -14,11 +14,11 @@ class Graph:
         """
 
     def add_vertex(self, idx: int, data: str):
-        self.vertices[idx] = {"data": data, "discovered": False}
+        self.vertices[idx] = data
 
     def add_edge(self, idx_from: int, idx_to: int):
         self.edges[idx_from] |= {idx_to}
-        # self.edges[idx_to] |= {idx_from}
+        self.edges[idx_to] |= {idx_from}
 
 
 def G():
@@ -49,26 +49,16 @@ def G():
     return g
 
 
-def dfs(graph, v, d=0):
+def dfs(graph: Graph, v, visited: List, stop):
+    visited.append(v)
 
-    graph.vertices[v]["discovered"] = True
-    print("-" * d, v, graph.vertices[v]["data"])
-
-    for w in graph.edges[v]:
-        if not graph.vertices[w]["discovered"]:
-            dfs(graph, w, d + 1)
-
-
-def bfs(graph, v, d=0):
-    graph.vertices[v]["discovered"] = True
+    print(v, graph.vertices[v])
 
     for w in graph.edges[v]:
-        if not graph.vertices[w]["discovered"]:
-            bfs(graph, w, d + 1)
+        if w == stop:
+            print("found", stop)
+        if w not in visited:
+            dfs(graph, w, visited, stop)
 
-    print("-" * d, v, graph.vertices[v]["data"])
 
-
-dfs(G(), 0)
-print()
-bfs(G(), 0)
+dfs(G(), 0, [], 3)

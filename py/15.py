@@ -1,6 +1,3 @@
-from tqdm import tqdm
-
-
 def manhatten(x1, x2, y1, y2):
     return abs(x1 - x2) + abs(y1 - y2)
 
@@ -39,9 +36,11 @@ def part_a(sensors, y=2000000):
         dy = abs(y - s["y"])
         dx = s["d"] - dy
         if dx > 0:
-            for x in range(s["x"] - dx, s["x"] + dx + 1):
-                if not (x == s["bx"] and y == s["by"]):
-                    occupied |= {x}
+            x = s["x"]
+            occupied |= set(range(x - dx, x + dx + 1))
+            if y == s["by"]:
+                occupied -= {s["bx"]}
+
     return occupied
 
 

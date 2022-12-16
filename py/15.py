@@ -1,3 +1,6 @@
+from tqdm import tqdm
+
+
 def manhatten(x1, x2, y1, y2):
     return abs(x1 - x2) + abs(y1 - y2)
 
@@ -37,15 +40,13 @@ def part_a(sensors, y=2000000):
         dx = s["d"] - dy
         if dx > 0:
             for x in range(s["x"] - dx, s["x"] + dx + 1):
-                if x != s["bx"] and y == s["by"]:
+                if not (x == s["bx"] and y == s["by"]):
                     occupied |= {x}
-    print(len(occupied))
-    print(occupied)
-    return len(occupied)
+    return occupied
 
 
 if __name__ == "__main__":
     ex = parse("examples/15.txt")
-    assert part_a(ex, y=10) == 26
+    assert len(part_a(ex, y=10)) == 26
     f = parse("build/15")
-    print(part_a(f))
+    print(len(part_a(f)))

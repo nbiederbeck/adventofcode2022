@@ -1,6 +1,3 @@
-from tqdm import trange
-
-
 def create_rock(height: int, shape: int):
     shape %= 5
     h = height + 4
@@ -76,7 +73,7 @@ def part_a(jets, n_rocks=2022):
 
     d = 0
 
-    for r in trange(n_rocks):
+    for r in range(n_rocks):
 
         rock = create_rock(max_height(chamber), r)
 
@@ -104,4 +101,4 @@ if __name__ == "__main__":
     f = open("build/17").read().strip()
     print(part_a(f))
     # assert part_a(ex, 1000000000000) == 1514285714288
-    print(part_a(f, 1000000000000))
+    # print(part_a(f, 1000000000000))

@@ -1,3 +1,6 @@
+from tqdm import trange
+
+
 def create_rock(height: int, shape: int):
     shape %= 5
     h = height + 4
@@ -62,11 +65,18 @@ def print_chamber(chamber):
     print("+-------+")
 
 
-def part_a(jets):
-    chamber = {(i, 0) for i in range(7)}
+def cut(chamber):
+    # return {(x, max(y for (x, y) in chamber if x == x)) for x in range(7)}
+    h = max_height(chamber) - 100
+    return {(x, y) for (x, y) in chamber if y >= h}
+
+
+def part_a(jets, n_rocks=2022):
+    chamber = cut({(i, 0) for i in range(7)})
 
     d = 0
-    for r in range(2022):
+
+    for r in trange(n_rocks):
 
         rock = create_rock(max_height(chamber), r)
 
@@ -83,6 +93,8 @@ def part_a(jets):
 
         chamber |= rock
 
+        chamber = cut(chamber)
+
     return max_height(chamber)
 
 
@@ -91,3 +103,5 @@ if __name__ == "__main__":
     assert part_a(ex) == 3068
     f = open("build/17").read().strip()
     print(part_a(f))
+    # assert part_a(ex, 1000000000000) == 1514285714288
+    print(part_a(f, 1000000000000))

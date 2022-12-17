@@ -1,11 +1,9 @@
-from collections import defaultdict
-from pprint import pprint
-from typing import Dict, List, Set
+from typing import Dict, List
 
 
 class Graph:
     vertices: Dict[int, str] = {}
-    edges: Dict[int, Set[int]] = defaultdict(set)
+    edges: Dict[int, Dict[int, int]] = {}
 
     def __str__(self) -> str:
         return f"""Graph:
@@ -16,9 +14,14 @@ class Graph:
     def add_vertex(self, idx: int, data: str):
         self.vertices[idx] = data
 
-    def add_edge(self, idx_from: int, idx_to: int):
-        self.edges[idx_from] |= {idx_to}
-        self.edges[idx_to] |= {idx_from}
+    def add_edge(self, idx_from: int, idx_to: int, weight: int = 1):
+        if idx_from not in self.edges:
+            self.edges[idx_from] = {}
+        self.edges[idx_from] |= {idx_to: weight}
+
+        if idx_to not in self.edges:
+            self.edges[idx_to] = {}
+        self.edges[idx_to] |= {idx_from: weight}
 
 
 def G():
@@ -34,17 +37,17 @@ def G():
     g.add_vertex(8, "Würzburg")
     g.add_vertex(9, "Erfurt")
 
-    g.add_edge(0, 1)
-    g.add_edge(0, 8)
-    g.add_edge(0, 6)
-    g.add_edge(2, 3)
-    g.add_edge(1, 2)
-    g.add_edge(3, 4)
-    g.add_edge(4, 6)
-    g.add_edge(8, 9)
-    g.add_edge(8, 5)
-    g.add_edge(5, 7)
-    g.add_edge(5, 4)
+    g.add_edge(0, 1, 85)
+    g.add_edge(0, 8, 217)
+    g.add_edge(0, 6, 173)
+    g.add_edge(2, 3, 250)
+    g.add_edge(1, 2, 80)
+    g.add_edge(3, 4, 84)
+    g.add_edge(4, 6, 502)
+    g.add_edge(8, 9, 186)
+    g.add_edge(8, 5, 103)
+    g.add_edge(5, 7, 183)
+    g.add_edge(5, 4, 167)
 
     return g
 
@@ -56,9 +59,6 @@ def dfs(graph: Graph, v, visited: List, stop):
 
     for w in graph.edges[v]:
         if w == stop:
-            print("found", stop)
+            print("found", stop, graph.vertices[w])
         if w not in visited:
             dfs(graph, w, visited, stop)
-
-
-dfs(G(), 0, [], 3)

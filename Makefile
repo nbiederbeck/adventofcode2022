@@ -1,4 +1,4 @@
-all: $(shell seq 17) 21
+all: $(shell seq 17) 20 21
 	./aoc.lua 1 2
 	./aoc.py $^
 

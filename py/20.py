@@ -9,13 +9,23 @@ def part_a(numbers):
     l = len(numbers)
     before = copy(numbers)
 
-    print(numbers)
-    for i, n in enumerate(before):
-        idx = (i + n) % l
+    # "sorting"
+    for n in before:
+        idx = numbers.index(n)
         numbers.remove(n)
-        numbers.insert(idx, n)
 
-        print(numbers)
+        idx += n
+        idx = idx % len(numbers)
+
+        if idx == 0:
+            numbers.append(n)
+        else:
+            numbers.insert(idx, n)
+
+    # find after 0
+    idx = numbers.index(0)
+    nums = list(numbers[(idx + i) % l] for i in (1000, 2000, 3000))
+    return sum(nums)
 
 
 if __name__ == "__main__":
